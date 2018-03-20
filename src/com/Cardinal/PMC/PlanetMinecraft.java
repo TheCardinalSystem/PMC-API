@@ -13,6 +13,11 @@ import com.Cardinal.PMC.Members.Submissions.SubmissionLoader;
  */
 public class PlanetMinecraft {
 
+	static {
+		System.err.println(
+				"--- PMC-API ---\n(https://github.com/TheCardinalSystem/PMC-API)\nAuthor: Cardinal System\nVersion: 0.0.1 BETA\nCredits: Powered by JSoup (https://jsoup.org/)\n--- PMC-API ---");
+	}
+
 	private ThreadLoader threadLoader;
 	private SubmissionLoader subLoader;
 	private MemberManager memberManager;
