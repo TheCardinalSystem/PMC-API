@@ -1,5 +1,6 @@
 package com.Cardinal.PMC.Members.Walls;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.Cardinal.PMC.Members.User;
 import com.Cardinal.PMC.Members.Submissions.Comment;
+import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
 
 /**
  * A class used to represent a wall post.
@@ -17,11 +19,40 @@ import com.Cardinal.PMC.Members.Submissions.Comment;
 public class WallPost {
 
 	private User author;
-	private int ID;
+	private int ID = -1;
 	private String content, URL;
-	private int likes;
+	private int likes = -1;
 	private LocalDateTime timestamp;
 	private List<Comment> comments;
+
+	/**
+	 * Constructs a new {@link WallPost} with the given data.
+	 * 
+	 * @param author
+	 *            the posts' author.
+	 * @param iD
+	 *            the post's ID.
+	 * @param content
+	 *            the post's description.
+	 * @param uRL
+	 *            the post's URL.
+	 * @param likes
+	 *            the post's likes.
+	 * @param timestamp
+	 *            the post's timestamp.
+	 * @param comments
+	 *            the post's comments.
+	 */
+	public WallPost(User author, int iD, String content, String uRL, int likes, LocalDateTime timestamp,
+			List<Comment> comments) {
+		this.author = author;
+		ID = iD;
+		this.content = content;
+		URL = uRL;
+		this.likes = likes;
+		this.timestamp = timestamp;
+		this.comments = comments;
+	}
 
 	/**
 	 * Constructs a new wall post with the given URL.
@@ -48,6 +79,8 @@ public class WallPost {
 	 * @return the author.
 	 */
 	public User getAuthor() {
+		if (author == null)
+			throw new UnloadedResourceExcpetion(URL, "wallpostAuthor");
 		return author;
 	}
 
@@ -57,6 +90,8 @@ public class WallPost {
 	 * @return the ID.
 	 */
 	public int getID() {
+		if (ID == -1)
+			throw new UnloadedResourceExcpetion(URL, "wallpostID");
 		return ID;
 	}
 
@@ -66,6 +101,8 @@ public class WallPost {
 	 * @return the content.
 	 */
 	public String getContent() {
+		if (comments == null)
+			throw new UnloadedResourceExcpetion(URL, "wallpostDesc");
 		return content;
 	}
 
@@ -76,6 +113,8 @@ public class WallPost {
 	 * @return the likes.
 	 */
 	public int getLikes() {
+		if (likes == -1)
+			throw new UnloadedResourceExcpetion(URL, "wallpostVotes");
 		return likes;
 	}
 
@@ -85,6 +124,8 @@ public class WallPost {
 	 * @return the timestamp.
 	 */
 	public LocalDateTime getTimestamp() {
+		if (timestamp == null)
+			throw new UnloadedResourceExcpetion(URL, "wallpostDate");
 		return timestamp;
 	}
 
@@ -94,67 +135,29 @@ public class WallPost {
 	 * @return the comments.
 	 */
 	public List<Comment> getComments() {
+		if (comments == null)
+			throw new UnloadedResourceExcpetion(URL, "wallpostComments");
 		return comments;
 	}
 
 	/**
-	 * Sets the author of this wall post.
+	 * Loads this wall post from URL provided in the constructor.
 	 * 
-	 * @param author
-	 *            the author to set.
+	 * @param loader
+	 *            the {@link WallPostLoader} to load from.
+	 * @return this, once it's loaded.
+	 * @throws IOException
+	 *             there was an error loading this.
 	 */
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
-	/**
-	 * Sets the ID of this wall post.
-	 * 
-	 * @param ID
-	 *            the ID to set
-	 */
-	public void setID(int ID) {
-		this.ID = ID;
-	}
-
-	/**
-	 * Sets the content of this wall post.
-	 * 
-	 * @param content
-	 *            the content to set.
-	 */
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	/**
-	 * Sets the likes on this wall post.
-	 * 
-	 * @param likes
-	 *            the likes to set.
-	 */
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
-	/**
-	 * Sets the timestamp of this wall post.
-	 * 
-	 * @param timestamp
-	 *            the timestamp to set.
-	 */
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	/**
-	 * Sets the comments on this wall post.
-	 * 
-	 * @param comments
-	 *            the comments to set.
-	 */
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
+	public WallPost load(WallPostLoader loader) throws IOException {
+		WallPost post = loader.loadPost(URL);
+		this.author = post.getAuthor();
+		this.comments = post.getComments();
+		this.content = post.getContent();
+		this.ID = post.getID();
+		this.likes = post.getLikes();
+		this.timestamp = post.getTimestamp();
+		return this;
 	}
 
 	@Override

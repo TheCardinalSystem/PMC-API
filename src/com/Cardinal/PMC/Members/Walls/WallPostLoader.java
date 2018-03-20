@@ -72,15 +72,16 @@ public class WallPostLoader {
 	 */
 	public WallPost loadPost(String url) throws IOException {
 		Document doc = Jsoup.connect(url).userAgent("PMCAPI").post();
-		WallPost post = new WallPost(url);
 
+		WallPost post;
 		try {
-			post.setAuthor(getAuthor(doc));
-			post.setComments(getComments(doc));
-			post.setContent(getContent(doc));
-			post.setLikes(getLikes(doc));
-			post.setTimestamp(getTimestamp(doc));
-			post.setID(getID(doc));
+			User author = getAuthor(doc);
+			List<Comment> comments = getComments(doc);
+			String content = getContent(doc);
+			int likes = getLikes(doc);
+			LocalDateTime stamp = getTimestamp(doc);
+			int ID = getID(doc);
+			post = new WallPost(author, ID, content, content, likes, stamp, comments);
 		} catch (IndexOutOfBoundsException e) {
 			throw new MissingPostException(url, e);
 		}
