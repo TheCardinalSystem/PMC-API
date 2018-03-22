@@ -3,6 +3,8 @@ package com.Cardinal.PMC.Members.Submissions;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.jsoup.nodes.Element;
+
 import com.Cardinal.PMC.Members.User;
 
 /**
@@ -41,7 +43,7 @@ public class Blog extends Submission {
 	 * @param timestamp
 	 *            the block's submission date.
 	 */
-	public Blog(String url, String title, String description, String[] tags, User author, int diamonds, int views,
+	public Blog(String url, String title, Element description, String[] tags, User author, int diamonds, int views,
 			int viewsToday, int favorites, int iD, List<Comment> comments, LocalDateTime timestamp) {
 		super(url);
 		this.type = Type.BLOGS;

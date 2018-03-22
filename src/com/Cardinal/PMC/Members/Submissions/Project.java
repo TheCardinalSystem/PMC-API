@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jsoup.nodes.Element;
+
 import com.Cardinal.PMC.Members.User;
 import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
 
@@ -50,7 +52,7 @@ public class Project extends Submission {
 	 * @param timestamp
 	 *            the project's submission date.
 	 */
-	public Project(String url, String title, String downloadurl, String description, String[] tags, User author,
+	public Project(String url, String title, String downloadurl, Element description, String[] tags, User author,
 			int diamonds, int views, int viewsToday, int favorites, int iD, List<Comment> comments,
 			LocalDateTime timestamp) {
 		super(url);
@@ -94,7 +96,7 @@ public class Project extends Submission {
 				+ timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")) + "\nDiamonds: " + diamonds
 				+ "\nViews: " + views + " | " + viewsToday + " today\nFavorites: " + favorites + "\nDownload: "
 				+ downloadurl + "\nTags: " + Arrays.toString(tags) + "\nDesc: [\n\t"
-				+ description.replaceAll("\n", "\n\t") + "\n]\nComments: {\n\t"
+				+ description.text().replaceAll("\n", "\n\t") + "\n]\nComments: {\n\t"
 				+ comments.stream().map(c -> c.toString()).collect(Collectors.joining("\n\n")).replaceAll("\n", "\n\t")
 				+ "\n}";
 

@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jsoup.nodes.Element;
+
 import com.Cardinal.PMC.Members.User;
 import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
 
@@ -18,7 +20,8 @@ import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
  */
 public abstract class Submission {
 
-	protected String url, title, description, tags[];
+	protected String url, title, tags[];
+	protected Element description;
 	protected User author;
 	protected int diamonds = -1, views = -1, viewsToday = -1, favorites = -1, ID = -1;
 	protected List<Comment> comments;
@@ -82,7 +85,7 @@ public abstract class Submission {
 	 * 
 	 * @return the description.
 	 */
-	public String getDescription() {
+	public Element getDescription() {
 		if (description == null)
 			throw new UnloadedResourceExcpetion(url, "submissionDesc");
 		return description;
@@ -208,7 +211,7 @@ public abstract class Submission {
 					+ "\nAuthor: " + author + "\nTime: "
 					+ timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")) + "\nDiamonds: " + diamonds
 					+ "\nViews: " + views + " | " + viewsToday + " today\nFavorites: " + favorites + "\nTags: "
-					+ Arrays.toString(tags) + "\nDesc: [\n\t" + description.replaceAll("\n", "\n\t")
+					+ Arrays.toString(tags) + "\nDesc: [\n\t" + description.text().replaceAll("\n", "\n\t")
 					+ "\n]\nComments: {\n\t" + comments.stream().map(c -> c.toString())
 							.collect(Collectors.joining("\n\n")).replaceAll("\n", "\n\t")
 					+ "\n}";

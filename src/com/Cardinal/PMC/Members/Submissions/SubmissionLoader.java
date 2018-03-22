@@ -412,7 +412,7 @@ public class SubmissionLoader {
 				String download = getDownload(doc, false);
 				int id = getID(doc);
 				String[] tags = getTags(doc);
-				String desc = getDescription(doc);
+				Element desc = getDescription(doc);
 
 				Project project = new Project(url, title, download, desc, tags, author, (int) details[0],
 						(int) details[1], (int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
@@ -430,7 +430,7 @@ public class SubmissionLoader {
 				String download = getDownload(doc, true);
 				int id = getID(doc);
 				String[] tags = getTags(doc);
-				String desc = getDescription(doc);
+				Element desc = getDescription(doc);
 
 				Skin skin = new Skin(url, title, download, desc, tags, author, (int) details[0], (int) details[1],
 						(int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
@@ -448,7 +448,7 @@ public class SubmissionLoader {
 				String download = getDownload(doc, false);
 				int id = getID(doc);
 				String[] tags = getTags(doc);
-				String desc = getDescription(doc);
+				Element desc = getDescription(doc);
 
 				TexturePack pack = new TexturePack(url, title, download, desc, tags, author, (int) details[0],
 						(int) details[1], (int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
@@ -464,7 +464,7 @@ public class SubmissionLoader {
 				Object[] details = getDetails(doc);
 				int id = getID(doc);
 				String[] tags = getTags(doc);
-				String desc = getDescription(doc);
+				Element desc = getDescription(doc);
 				String ip = getServerIP(doc);
 
 				Server server = new Server(url, title, ip, desc, tags, author, (int) details[0], (int) details[1],
@@ -483,7 +483,7 @@ public class SubmissionLoader {
 				String download = getDownload(doc, false);
 				int id = getID(doc);
 				String[] tags = getTags(doc);
-				String desc = getDescription(doc);
+				Element desc = getDescription(doc);
 
 				Mod mod = new Mod(url, title, download, desc, tags, author, (int) details[0], (int) details[1],
 						(int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
@@ -499,7 +499,7 @@ public class SubmissionLoader {
 				Object[] details = getDetails(doc);
 				int id = getID(doc);
 				String[] tags = getTags(doc);
-				String desc = getDescription(doc);
+				Element desc = getDescription(doc);
 
 				Blog blog = new Blog(url, title, desc, tags, author, (int) details[0], (int) details[1],
 						(int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
@@ -611,18 +611,8 @@ public class SubmissionLoader {
 	 *            the submission document.
 	 * @return the description.
 	 */
-	private String getDescription(Document doc) {
-		Element text = doc.getElementById(ElementIdentifiers.TEXT);
-		if (text == null)
-			return "No description.";
-		text.select("br").append("\n");
-		for (Element image : text.select("img[src]")) {
-			image.appendText(" (" + image.attr("src") + ")");
-		}
-		for (Element hyper : text.select("a[href]")) {
-			hyper.appendText(" (" + hyper.attr("href") + ")");
-		}
-		return text.text();
+	private Element getDescription(Document doc) {
+		return doc.getElementById(ElementIdentifiers.TEXT);
 	}
 
 	/**

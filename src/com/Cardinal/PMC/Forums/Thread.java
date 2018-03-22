@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jsoup.nodes.Element;
+
 import com.Cardinal.PMC.Members.User;
 import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
 
@@ -17,7 +19,8 @@ import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
  */
 public class Thread {
 
-	private String title, content, url;
+	private String title, url;
+	private Element content;
 	private User author;
 	private int emeralds = -1, views = -1, ID = -1;
 	private Category category;
@@ -45,7 +48,7 @@ public class Thread {
 	 * @param replies
 	 *            the thread {@linkplain Reply replies}.
 	 */
-	public Thread(String url, Category category, String title, String content, User author, Object[] details, int ID,
+	public Thread(String url, Category category, String title, Element content, User author, Object[] details, int ID,
 			List<Reply> replies) {
 		this.url = url;
 		this.title = title;
@@ -124,7 +127,7 @@ public class Thread {
 	/**
 	 * @return the thread description.
 	 */
-	public String getContent() {
+	public Element getContent() {
 		if (content == null)
 			throw new UnloadedResourceExcpetion(url, "threadContent");
 		else
@@ -192,6 +195,17 @@ public class Thread {
 	}
 
 	/**
+	 * Used to check whether or not this thread is loaded.
+	 * 
+	 * @return true: the thread is loaded.<br>
+	 *         false: the thread is not loaded.
+	 */
+	public boolean isLoaded() {
+		return title != null && content != null && author != null && emeralds != -1 && views != -1 && ID != -1
+				&& category != null && timestamp != null && replies != null;
+	}
+
+	/**
 	 * Loads this thread from its URL using the given {@link ThreadLoader}.
 	 * 
 	 * @param loader
@@ -200,7 +214,7 @@ public class Thread {
 	 *             there was an error loading this thread.
 	 */
 	public void load(ThreadLoader loader) throws IOException {
-		Thread t = loader.load(url);
+		Thread t = loader.getThread(url);
 		this.author = t.getAuthor();
 		this.category = t.getCategory();
 		this.content = t.getContent();
@@ -217,7 +231,7 @@ public class Thread {
 			return "ID: " + ID + "\nCategory: " + category.toString() + "\nURL: " + url + "\nTitle: " + title
 					+ "\nAuthor: " + author.toString() + "\nEmeralds: " + emeralds + "\nViews: " + views + "\nTime: "
 					+ timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")) + "\nContent: [\n\t"
-					+ content.replaceAll("\n", "\n\t") + "\n]" + "\nReplies: {\n\t"
+					+ content.text().replaceAll("\n", "\n\t") + "\n]" + "\nReplies: {\n\t"
 					+ replies.stream().filter(r -> r.getParentID() == 0).map(t -> t.toString())
 							.collect(Collectors.joining("\n\n")).replaceAll("\n", "\n\t")
 					+ "\n}";

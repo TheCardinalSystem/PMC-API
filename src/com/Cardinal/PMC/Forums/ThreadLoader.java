@@ -52,10 +52,12 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -78,10 +80,12 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -105,10 +109,12 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -134,10 +140,12 @@ public class ThreadLoader {
 		int p = startPage;
 		while (p < endPage) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, Integer.MAX_VALUE));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -163,10 +171,12 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -196,10 +206,12 @@ public class ThreadLoader {
 		int p = startPage;
 		while (p < endPage) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, Integer.MAX_VALUE));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -225,10 +237,12 @@ public class ThreadLoader {
 		int p = startPage;
 		while (p < endPage) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, Integer.MAX_VALUE));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -253,10 +267,12 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -288,10 +304,12 @@ public class ThreadLoader {
 		int p = startPage;
 		while (p < endPage) {
 			p++;
+			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, Integer.MAX_VALUE));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
+		System.gc();
 		return threadsList;
 	}
 
@@ -368,12 +386,16 @@ public class ThreadLoader {
 			int id = getThreadID(doc);
 			List<Reply> replies = getReplies(doc);
 			Category category = getCategory(doc);
-			String title = getTitle(doc), content = getContent(doc);
+			String title = getTitle(doc);
+			Element content = getContent(doc);
 
 			Thread thread = new Thread(url, category, title, content, author, stats, id, replies);
 			loadedThreads.put(url, thread);
+			System.out.println("Loaded " + loadedThreads.size() + " threads.");
+			System.gc();
 			return thread;
 		} catch (IndexOutOfBoundsException e) {
+			System.gc();
 			throw new MissingPostException(url, e);
 		}
 	}
@@ -401,7 +423,7 @@ public class ThreadLoader {
 				threads.add(load(link));
 			}
 		}
-
+		System.gc();
 		return threads;
 	}
 
@@ -458,16 +480,12 @@ public class ThreadLoader {
 	 *            the forums thread document.
 	 * @return the thread content.
 	 */
-	private String getContent(Document doc) {
+	private Element getContent(Document doc) {
 		Elements content = doc.getElementsByClass(ElementIdentifiers.CONTENT);
-		content.select("br").append("\n");
-		for (Element image : content.select("img[src]")) {
-			image.appendText(" (" + image.attr("src") + ")");
+		if (content.isEmpty()) {
+			return new Element(ElementIdentifiers.CONTENT);
 		}
-		for (Element hyper : content.select("a[href]")) {
-			hyper.appendText(" (" + hyper.attr("href") + ")");
-		}
-		return content.first().text();
+		return content.first();
 	}
 
 	/**
@@ -499,9 +517,14 @@ public class ThreadLoader {
 		Elements replies = cont.getElementsByClass(ElementIdentifiers.REPLY);
 		List<Reply> list = new ArrayList<Reply>();
 		for (Element reply : replies) {
-			int emeralds = Integer.parseInt(reply.getElementsByClass(ElementIdentifiers.SCORECONTAINER).first()
-					.getElementsByClass(ElementIdentifiers.SCOREBOX).first()
-					.getElementsByClass(ElementIdentifiers.SCORE).first().ownText());
+			int emeralds;
+			try {
+				emeralds = Integer.parseInt(reply.getElementsByClass(ElementIdentifiers.SCORECONTAINER).first()
+						.getElementsByClass(ElementIdentifiers.SCOREBOX).first()
+						.getElementsByClass(ElementIdentifiers.SCORE).first().ownText());
+			} catch (NullPointerException e) {
+				break;
+			}
 			Element content = reply.getElementsByClass(ElementIdentifiers.CONTENTBOX).first();
 			Element member = content.getElementsByClass(ElementIdentifiers.MEMBERBOX).first();
 			Element link = member.getElementsByTag("a").first();
@@ -513,10 +536,10 @@ public class ThreadLoader {
 
 			Element mes = content.getElementsByClass(ElementIdentifiers.REPLYMESSAGE).first();
 			mes.select("br").append("\n");
-			String message = mes.text();
 			int parent = Integer.parseInt(reply.attr(ElementIdentifiers.PARENTIDATTR)),
 					ID = Integer.parseInt(reply.attr(ElementIdentifiers.IDATTR));
-			Reply rep = new Reply(user, emeralds, ID, parent, message, time);
+
+			Reply rep = new Reply(user, emeralds, ID, parent, mes, time);
 
 			list.add(rep);
 		}

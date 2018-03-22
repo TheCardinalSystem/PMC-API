@@ -403,4 +403,16 @@ public class User {
 				+ "\nSubscriptions: [\n\t"
 				+ subscriptions.stream().map(User::toString).collect(Collectors.joining(", ")) + "\n]";
 	}
+
+	/**
+	 * Check if the given user is the same user as this one.
+	 * 
+	 * @param user
+	 *            the user to check.
+	 * @return true: they are the same users.<br>
+	 * 		false: they are different users.
+	 */
+	public boolean equals(User user) {
+		return user.getURL() == url;
+	}
 }

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jsoup.nodes.Element;
+
 import com.Cardinal.PMC.Members.User;
 
 /**
@@ -21,7 +23,7 @@ public class Reply {
 
 	private User author;
 	private int emeralds, ID, parentID;
-	private String content;
+	private Element content;
 	private LocalDateTime timestamp;
 	private List<Integer> children;
 
@@ -41,7 +43,7 @@ public class Reply {
 	 * @param timestamp
 	 *            the reply's timestamp.
 	 */
-	public Reply(User author, int emeralds, int iD, int parentID, String content, LocalDateTime timestamp) {
+	public Reply(User author, int emeralds, int iD, int parentID, Element content, LocalDateTime timestamp) {
 		this.author = author;
 		this.emeralds = emeralds;
 		this.ID = iD;
@@ -92,7 +94,7 @@ public class Reply {
 	/**
 	 * @return the reply message.
 	 */
-	public String getContent() {
+	public Element getContent() {
 		return content;
 	}
 

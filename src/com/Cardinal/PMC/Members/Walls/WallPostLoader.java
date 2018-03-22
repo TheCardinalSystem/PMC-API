@@ -77,11 +77,11 @@ public class WallPostLoader {
 		try {
 			User author = getAuthor(doc);
 			List<Comment> comments = getComments(doc);
-			String content = getContent(doc);
+			Element content = getContent(doc);
 			int likes = getLikes(doc);
 			LocalDateTime stamp = getTimestamp(doc);
 			int ID = getID(doc);
-			post = new WallPost(author, ID, content, content, likes, stamp, comments);
+			post = new WallPost(author, ID, content, url, likes, stamp, comments);
 		} catch (IndexOutOfBoundsException e) {
 			throw new MissingPostException(url, e);
 		}
@@ -145,16 +145,9 @@ public class WallPostLoader {
 	 *            the wall post document.
 	 * @return the content.
 	 */
-	private String getContent(Document doc) {
+	private Element getContent(Document doc) {
 		Element content = doc.getElementsByClass(ElementIdentifiers.WALLCONTENT).first();
-		content.select("br").append("\n");
-		for (Element image : content.select("img[src]")) {
-			image.appendText(" (" + image.attr("src") + ")");
-		}
-		for (Element hyper : content.select("a[href]")) {
-			hyper.appendText(" (" + hyper.attr("href") + ")");
-		}
-		return content.text();
+		return content;
 	}
 
 	/**

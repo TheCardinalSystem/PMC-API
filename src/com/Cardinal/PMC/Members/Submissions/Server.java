@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jsoup.nodes.Element;
+
 import com.Cardinal.PMC.Members.User;
 import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
 
@@ -50,7 +52,7 @@ public class Server extends Submission {
 	 * @param timestamp
 	 *            the server's submission date.
 	 */
-	public Server(String url, String title, String IP, String description, String[] tags, User author, int diamonds,
+	public Server(String url, String title, String IP, Element description, String[] tags, User author, int diamonds,
 			int views, int viewsToday, int favorites, int iD, List<Comment> comments, LocalDateTime timestamp) {
 		super(url);
 		this.url = url;
@@ -92,7 +94,7 @@ public class Server extends Submission {
 		return "ID: " + ID + "\nType: Server\nURL: " + url + "\nTitle: " + title + "\nIP: " + ip + "\nAuthor: " + author
 				+ "\nTime: " + timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")) + "\nDiamonds: "
 				+ diamonds + "\nViews: " + views + " | " + viewsToday + " today\nFavorites: " + favorites + "\nTags: "
-				+ Arrays.toString(tags) + "\nDesc: [\n\t" + description.replaceAll("\n", "\n\t")
+				+ Arrays.toString(tags) + "\nDesc: [\n\t" + description.text().replaceAll("\n", "\n\t")
 				+ "\n]\nComments: {\n\t"
 				+ comments.stream().map(c -> c.toString()).collect(Collectors.joining("\n\n")).replaceAll("\n", "\n\t")
 				+ "\n}";

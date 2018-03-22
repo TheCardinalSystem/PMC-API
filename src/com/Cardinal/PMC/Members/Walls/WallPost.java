@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jsoup.nodes.Element;
+
 import com.Cardinal.PMC.Members.User;
 import com.Cardinal.PMC.Members.Submissions.Comment;
 import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
@@ -20,7 +22,8 @@ public class WallPost {
 
 	private User author;
 	private int ID = -1;
-	private String content, URL;
+	private String URL;
+	private Element content;
 	private int likes = -1;
 	private LocalDateTime timestamp;
 	private List<Comment> comments;
@@ -43,7 +46,7 @@ public class WallPost {
 	 * @param comments
 	 *            the post's comments.
 	 */
-	public WallPost(User author, int iD, String content, String uRL, int likes, LocalDateTime timestamp,
+	public WallPost(User author, int iD, Element content, String uRL, int likes, LocalDateTime timestamp,
 			List<Comment> comments) {
 		this.author = author;
 		ID = iD;
@@ -100,7 +103,7 @@ public class WallPost {
 	 * 
 	 * @return the content.
 	 */
-	public String getContent() {
+	public Element getContent() {
 		if (comments == null)
 			throw new UnloadedResourceExcpetion(URL, "wallpostDesc");
 		return content;
@@ -150,7 +153,7 @@ public class WallPost {
 	 *             there was an error loading this.
 	 */
 	public WallPost load(WallPostLoader loader) throws IOException {
-		WallPost post = loader.loadPost(URL);
+		WallPost post = loader.getPost(URL);
 		this.author = post.getAuthor();
 		this.comments = post.getComments();
 		this.content = post.getContent();

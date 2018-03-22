@@ -17,7 +17,7 @@ public class ElementIdentifiers {
 			SCOREBOX = "score_box", SCORE = "score", CONTENTBOX = "content_box", MEMBERBOX = "member_box",
 			TIMEBOX = "time_box", REPLYMESSAGE = "contents pmc_readmore", CRUMB = "thread_crumb_context",
 			CATEGORY = "category", IDATTR = "data-id", PARENTIDATTR = "data-parent-id", AUTHID = "author_id",
-			THREADID = "visiting_thread", THREADBOX = "thread_box";
+			THREADID = "visiting_thread", THREADBOX = "thread_box", MOREREPLIES = "clip_link load_more";
 
 	// Submission Strings
 	public static final String DETAILS = "resource-info", STITLE = "h1", TEXT = "r-text-block",
