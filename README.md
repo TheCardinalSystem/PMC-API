@@ -13,6 +13,6 @@ Coming Soon!
 ## Further Support
 Further support can be obtain at [the official github](https://github.com/TheCardinalSystem/PMC-API/ "CardinalSystem Project") or the [not so official Discord](https://discordapp.com/invite/7Jh6Jd6 "Cardinal Support").
 
-Latest release v1.0.3 - ©Copyright Cardinal System Developement 2018
+Latest release v0.0.1-BETA - ©Copyright Cardinal System Developement 2018
 
 Any misuse of latest versions is punishable by law.
