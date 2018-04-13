@@ -52,7 +52,6 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -80,7 +79,6 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -109,7 +107,6 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -140,7 +137,6 @@ public class ThreadLoader {
 		int p = startPage;
 		while (p < endPage) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, Integer.MAX_VALUE));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -171,7 +167,6 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -206,7 +201,6 @@ public class ThreadLoader {
 		int p = startPage;
 		while (p < endPage) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, Integer.MAX_VALUE));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -237,7 +231,6 @@ public class ThreadLoader {
 		int p = startPage;
 		while (p < endPage) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, Integer.MAX_VALUE));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -267,7 +260,6 @@ public class ThreadLoader {
 		int p = 1;
 		while (threadsList.size() < amount) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, amount - threadsList.size()));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -304,7 +296,6 @@ public class ThreadLoader {
 		int p = startPage;
 		while (p < endPage) {
 			p++;
-			System.out.print("\r");
 			threadsList.addAll(getThreadPage(doc, Integer.MAX_VALUE));
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
@@ -391,7 +382,6 @@ public class ThreadLoader {
 
 			Thread thread = new Thread(url, category, title, content, author, stats, id, replies);
 			loadedThreads.put(url, thread);
-			System.out.println("Loaded " + loadedThreads.size() + " threads.");
 			System.gc();
 			return thread;
 		} catch (IndexOutOfBoundsException e) {

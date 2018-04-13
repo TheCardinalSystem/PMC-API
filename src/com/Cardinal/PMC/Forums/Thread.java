@@ -3,6 +3,8 @@ package com.Cardinal.PMC.Forums;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -227,6 +229,10 @@ public class Thread {
 
 	@Override
 	public String toString() {
+		return this.url;
+	}
+
+	public String toPrettyString() {
 		try {
 			return "ID: " + ID + "\nCategory: " + category.toString() + "\nURL: " + url + "\nTitle: " + title
 					+ "\nAuthor: " + author.toString() + "\nEmeralds: " + emeralds + "\nViews: " + views + "\nTime: "
@@ -239,6 +245,24 @@ public class Thread {
 			return "Category: " + category.toString() + "\nURL: " + url + "\nTitle: " + title + "\nAuthor: "
 					+ author.toString();
 		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj.toString().equals(this.toString());
+	}
+
+	/**
+	 * Removes any duplicate threads from the given list.
+	 * 
+	 * @param threads
+	 *            the distinct threads.
+	 */
+	public static void distinct(Collection<Thread> threads) {
+		HashMap<String, Thread> dist = new HashMap<String, Thread>();
+		threads.forEach(t -> dist.put(t.getURL(), t));
+		threads.clear();
+		threads.addAll(dist.values());
 	}
 
 	/**
