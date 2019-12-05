@@ -10,6 +10,13 @@ This project is solely owned by ***Cardinal System*** and _no individual_ may re
 ## Examples
 Coming Soon!
 
+## Third Party Libraries
+This project is powered by:
+* [jsoup](https://jsoup.org/)
+
+## Support
+Support can be obtain at [the official github](https://github.com/TheCardinalSystem/LOTHProject "CardinalSystem Project") or the [not so official Discord](https://discordapp.com/inv
+
 ## Further Support
 Further support can be obtain at [the official github](https://github.com/TheCardinalSystem/EasyObjectStorage "CardinalSystem Project") or the [not so official Discord](https://discordapp.com/invite/7Jh6Jd6 "Cardinal Support").
 
