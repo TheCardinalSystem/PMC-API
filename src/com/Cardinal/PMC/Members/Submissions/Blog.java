@@ -18,36 +18,26 @@ public class Blog extends Submission {
 	/**
 	 * Constructs a new {@link Blog} with the given data.
 	 * 
-	 * @param url
-	 *            the blog's URL.
-	 * @param title
-	 *            the blog's title.
-	 * @param description
-	 *            the blog's description/content.
-	 * @param tags
-	 *            the blog's tags/keywords.
-	 * @param author
-	 *            the blog's author.
-	 * @param diamonds
-	 *            the blog's diamonds/votes.
-	 * @param views
-	 *            the blog's views.
-	 * @param viewsToday
-	 *            the blog's views today.
-	 * @param favorites
-	 *            the blog's favorites.
-	 * @param iD
-	 *            the block's ID.
-	 * @param comments
-	 *            the block's comments.
-	 * @param timestamp
-	 *            the block's submission date.
+	 * @param url         the blog's URL.
+	 * @param title       the blog's title.
+	 * @param media       URLs to this project's video(s)/thumbnail(s)
+	 * @param description the blog's description/content.
+	 * @param tags        the blog's tags/keywords.
+	 * @param author      the blog's author.
+	 * @param diamonds    the blog's diamonds/votes.
+	 * @param views       the blog's views.
+	 * @param viewsToday  the blog's views today.
+	 * @param favorites   the blog's favorites.
+	 * @param iD          the block's ID.
+	 * @param comments    the block's comments.
+	 * @param timestamp   the block's submission date.
 	 */
-	public Blog(String url, String title, Element description, String[] tags, User author, int diamonds, int views,
-			int viewsToday, int favorites, int iD, List<Comment> comments, LocalDateTime timestamp) {
+	public Blog(String url, String title, String[] media, Element description, String[] tags, User author, int diamonds,
+			int views, int viewsToday, int favorites, int iD, List<Comment> comments, LocalDateTime timestamp) {
 		super(url);
 		this.type = Type.BLOGS;
 		this.title = title;
+		this.media = media;
 		this.description = description;
 		this.tags = tags;
 		this.author = author;
@@ -61,11 +51,11 @@ public class Blog extends Submission {
 	}
 
 	public enum Category {
-		ARTICLE, TUTORIAL, REVIEW, INTERVIEW, STORY, LETSPLAY, ART, COMIC, OTHER;
+		ALL, ARTICLE, TUTORIAL, REVIEW, INTERVIEW, STORY, LETSPLAY, ART, COMIC, OTHER;
 
 		@Override
 		public String toString() {
-			return super.toString().toLowerCase();
+			return this.equals(ALL) ? "" : super.toString().toLowerCase();
 		}
 	}
 }

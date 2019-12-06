@@ -1,5 +1,8 @@
 package com.Cardinal.PMC;
 
+import java.io.IOException;
+
+import com.Cardinal.PMC.Forums.Thread;
 import com.Cardinal.PMC.Forums.ThreadLoader;
 import com.Cardinal.PMC.Members.MemberManager;
 import com.Cardinal.PMC.Members.Submissions.SubmissionLoader;
@@ -13,9 +16,16 @@ import com.Cardinal.PMC.Members.Submissions.SubmissionLoader;
  */
 public class PlanetMinecraft {
 
+	public static void main(String[] args) throws IOException {
+		PlanetMinecraft pmc = new PlanetMinecraft();
+		ThreadLoader loader = pmc.getForums();
+		Thread t = loader.load("https://www.planetminecraft.com/forums/archive/games/you-are-banned-585413/");
+		System.out.println(t.toPrettyString());
+	}
+
 	static {
 		System.err.println(
-				"--- PMC-API ---\n(https://github.com/TheCardinalSystem/PMC-API)\nAuthor: Cardinal System\nVersion: 0.0.1 BETA\nCredits: Powered by JSoup (https://jsoup.org/)\n--- PMC-API ---");
+				"--- PMC-API ---\n(https://github.com/TheCardinalSystem/PMC-API/)\nAuthor: Cardinal System\nVersion: 0.0.1 BETA\nCredits: Powered by JSoup (https://jsoup.org/)\n--- PMC-API ---");
 	}
 
 	private ThreadLoader threadLoader;

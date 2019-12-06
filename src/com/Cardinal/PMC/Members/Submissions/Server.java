@@ -25,38 +25,28 @@ public class Server extends Submission {
 	/**
 	 * Constructs a new {@link Server} with the given data.
 	 * 
-	 * @param url
-	 *            the server's URL.
-	 * @param title
-	 *            the server's title.
-	 * @param IP
-	 *            the server's IP.
-	 * @param description
-	 *            the server's description.
-	 * @param tags
-	 *            the server's tags/keywords.
-	 * @param author
-	 *            the server's author.
-	 * @param diamonds
-	 *            the server's diamonds/votes.
-	 * @param views
-	 *            the server's views.
-	 * @param viewsToday
-	 *            the server's views today.
-	 * @param favorites
-	 *            the server's favorites.
-	 * @param iD
-	 *            the server's ID.
-	 * @param comments
-	 *            the server's comments.
-	 * @param timestamp
-	 *            the server's submission date.
+	 * @param url         the server's URL.
+	 * @param title       the server's title.
+	 * @param IP          the server's IP.
+	 * @param media       URLs to this project's video(s)/thumbnail(s)
+	 * @param description the server's description.
+	 * @param tags        the server's tags/keywords.
+	 * @param author      the server's author.
+	 * @param diamonds    the server's diamonds/votes.
+	 * @param views       the server's views.
+	 * @param viewsToday  the server's views today.
+	 * @param favorites   the server's favorites.
+	 * @param iD          the server's ID.
+	 * @param comments    the server's comments.
+	 * @param timestamp   the server's submission date.
 	 */
-	public Server(String url, String title, String IP, Element description, String[] tags, User author, int diamonds,
-			int views, int viewsToday, int favorites, int iD, List<Comment> comments, LocalDateTime timestamp) {
+	public Server(String url, String title, String IP, String[] media, Element description, String[] tags, User author,
+			int diamonds, int views, int viewsToday, int favorites, int iD, List<Comment> comments,
+			LocalDateTime timestamp) {
 		super(url);
 		this.url = url;
 		this.title = title;
+		this.media = media;
 		this.description = description;
 		this.tags = tags;
 		this.author = author;
@@ -91,9 +81,11 @@ public class Server extends Submission {
 
 	@Override
 	public String toString() {
-		return "ID: " + ID + "\nType: Server\nURL: " + url + "\nTitle: " + title + "\nIP: " + ip + "\nAuthor: " + author
-				+ "\nTime: " + timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")) + "\nDiamonds: "
-				+ diamonds + "\nViews: " + views + " | " + viewsToday + " today\nFavorites: " + favorites + "\nTags: "
+		return "ID: " + ID + "\nType: Server\nURL: " + url + "\nMedia: "
+				+ Arrays.toString(media != null ? media : new String[1]) + "\nTitle: " + title + "\nIP: " + ip
+				+ "\nAuthor: " + author + "\nTime: "
+				+ timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")) + "\nDiamonds: " + diamonds
+				+ "\nViews: " + views + " | " + viewsToday + " today\nFavorites: " + favorites + "\nTags: "
 				+ Arrays.toString(tags) + "\nDesc: [\n\t" + description.text().replaceAll("\n", "\n\t")
 				+ "\n]\nComments: {\n\t"
 				+ comments.stream().map(c -> c.toString()).collect(Collectors.joining("\n\n")).replaceAll("\n", "\n\t")

@@ -15,9 +15,10 @@ public class ElementIdentifiers {
 	public static final String FTITLE = "title", CONTENT = "thread_content", STATS = "thread_subtitle",
 			REPLYCONTAINER = "forum_reply_container", REPLY = "forum_reply", SCORECONTAINER = "score_container",
 			SCOREBOX = "score_box", SCORE = "score", CONTENTBOX = "content_box", MEMBERBOX = "member_box",
-			TIMEBOX = "time_box", REPLYMESSAGE = "contents pmc_readmore", CRUMB = "thread_crumb_context",
-			CATEGORY = "category", IDATTR = "data-id", PARENTIDATTR = "data-parent-id", AUTHID = "author_id",
-			THREADID = "visiting_thread", THREADBOX = "thread_box", MOREREPLIES = "clip_link load_more";
+			TIMEBOX = "time_box", REPLYMESSAGE = "contents pmc_readmore", CONTEXT_HEADER = "content_graphic_header",
+			CRUMB = "thread_page_context", CATEGORY = "category", IDATTR = "data-id", PARENTIDATTR = "data-parent-id",
+			AUTHID = "author_id", THREADID = "visiting_thread", THREADBOX = "thread_box",
+			MOREREPLIES = "clip_link load_more";
 
 	// Submission Strings
 	public static final String DETAILS = "resource-info", STITLE = "h1", TEXT = "r-text-block",
@@ -25,7 +26,9 @@ public class ElementIdentifiers {
 			COMMENTITEM = "comment-item", COMMENTHEADER = "comment-header", COMMENTTEXT = "comment-text",
 			TYPE = "post_context", DOWNLOAD = "content-actions", COMMENTID = "comment_id hidden", SUBID = "resource_id",
 			TAGS = "item_tags", SERVERIP = "server_form", RESOURCE = "resource ", RINFO = "r-info",
-			AUTHOR = "contributed";
+			AUTHOR = "contributed", RESOURCE_EMBED = "resource-embed", EMBED_CODE = "embed_code2",
+			RESOURCE_IMG = "rsImg", RESOURCE_NO_DRAG = "rsImg rsNoDrag", VIDEO_GALLERY = "tab_video_gallery",
+			ANGELS = "skin_angles", THIRD_PARTY = "third-party-download";
 
 	// Wall Strings
 

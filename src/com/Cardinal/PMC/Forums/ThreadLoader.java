@@ -34,15 +34,11 @@ public class ThreadLoader {
 	/**
 	 * Searches the given category for the given keywords.
 	 * 
-	 * @param search
-	 *            search keywords.
-	 * @param category
-	 *            the category to search under.
-	 * @param amount
-	 *            the amount of threads to get.
+	 * @param search   search keywords.
+	 * @param category the category to search under.
+	 * @param amount   the amount of threads to get.
 	 * @return the unloaded threads.
-	 * @throws IOException
-	 *             there was an error searching the forums.
+	 * @throws IOException there was an error searching the forums.
 	 */
 	public List<Thread> searchCategoryThreads(String search, Category category, int amount) throws IOException {
 		String url = "https://www.planetminecraft.com" + category.toHREF() + "/search/?keywords=" + search;
@@ -56,20 +52,16 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
 	/**
 	 * Searches the forums for the given keywords.
 	 * 
-	 * @param search
-	 *            search keywords.
-	 * @param amount
-	 *            the amount of threads to get.
+	 * @param search search keywords.
+	 * @param amount the amount of threads to get.
 	 * @return the unloaded threads.
-	 * @throws IOException
-	 *             there was an error searching the forums.
+	 * @throws IOException there was an error searching the forums.
 	 */
 	public List<Thread> searchThreads(String search, int amount) throws IOException {
 		String url = "https://www.planetminecraft.com/forums/search/?keywords=" + search;
@@ -83,7 +75,6 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
@@ -91,13 +82,10 @@ public class ThreadLoader {
 	 * Gets the given number of threads from the given category in order of newest
 	 * to oldest.
 	 * 
-	 * @param category
-	 *            the category.
-	 * @param amount
-	 *            the number of threads to get.
+	 * @param category the category.
+	 * @param amount   the number of threads to get.
 	 * @return the threads.
-	 * @throws IOException
-	 *             there was an error loading the threads.
+	 * @throws IOException there was an error loading the threads.
 	 */
 	public List<Thread> getCategory(Category category, int amount) throws IOException {
 		String url = "https://www.planetminecraft.com" + category.toHREF() + "?thread_sort=newest";
@@ -111,22 +99,17 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
 	/**
 	 * Gets all the threads under the given category in the specified page range.
 	 * 
-	 * @param startPage
-	 *            the start page.
-	 * @param endPage
-	 *            the end page.
-	 * @param category
-	 *            the category to get from.
+	 * @param startPage the start page.
+	 * @param endPage   the end page.
+	 * @param category  the category to get from.
 	 * @return the unloaded threads.
-	 * @throws IOException
-	 *             there was an error getting the threads.
+	 * @throws IOException there was an error getting the threads.
 	 */
 	public List<Thread> getCateoryPages(int startPage, int endPage, Category category) throws IOException {
 		String url = "https://www.planetminecraft.com" + category.toHREF();
@@ -141,7 +124,6 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
@@ -149,15 +131,11 @@ public class ThreadLoader {
 	 * Gets the given number of threads from the given category in the order
 	 * specified by the the {@linkplain Feed}.
 	 * 
-	 * @param category
-	 *            the category.
-	 * @param feedType
-	 *            used to sort the thread feed.
-	 * @param amount
-	 *            the number of threads to get.
+	 * @param category the category.
+	 * @param feedType used to sort the thread feed.
+	 * @param amount   the number of threads to get.
 	 * @return the threads.
-	 * @throws IOException
-	 *             there was an error loading the threads.
+	 * @throws IOException there was an error loading the threads.
 	 */
 	public List<Thread> getFeedCategory(Category category, Feed feedType, int amount) throws IOException {
 		String url = "https://www.planetminecraft.com" + category.toHREF() + feedType.toString();
@@ -171,7 +149,6 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
@@ -179,17 +156,12 @@ public class ThreadLoader {
 	 * Gets all the threads under the given category in the specified page range in
 	 * order as defined by given feed.
 	 * 
-	 * @param startPage
-	 *            the start page.
-	 * @param endPage
-	 *            the end page.
-	 * @param feedType
-	 *            used to sort the thread feed.
-	 * @param category
-	 *            the category to get from.
+	 * @param startPage the start page.
+	 * @param endPage   the end page.
+	 * @param feedType  used to sort the thread feed.
+	 * @param category  the category to get from.
 	 * @return the unloaded threads.
-	 * @throws IOException
-	 *             there was an error getting the threads.
+	 * @throws IOException there was an error getting the threads.
 	 */
 	public List<Thread> getFeedCategoryPages(int startPage, int endPage, Feed feedType, Category category)
 			throws IOException {
@@ -205,7 +177,6 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
@@ -213,15 +184,11 @@ public class ThreadLoader {
 	 * Gets all the threads in the specified page range ordered as defined by the
 	 * given feed.
 	 * 
-	 * @param startPage
-	 *            the start page.
-	 * @param endPage
-	 *            the end page.
-	 * @param feedType
-	 *            used to sort the thread feed.
+	 * @param startPage the start page.
+	 * @param endPage   the end page.
+	 * @param feedType  used to sort the thread feed.
 	 * @return the unloaded threads.
-	 * @throws IOException
-	 *             there was an error getting the threads.
+	 * @throws IOException there was an error getting the threads.
 	 */
 	public List<Thread> getFeedPages(int startPage, int endPage, Thread.Feed feedType) throws IOException {
 		String url = "https://www.planetminecraft.com/forums" + feedType.toString();
@@ -235,7 +202,6 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
@@ -244,13 +210,10 @@ public class ThreadLoader {
 	 * by the the {@linkplain Feed}.
 	 * 
 	 *
-	 * @param feedType
-	 *            used to sort the thread feed.
-	 * @param amount
-	 *            the number of threads to get.
+	 * @param feedType used to sort the thread feed.
+	 * @param amount   the number of threads to get.
 	 * @return the threads.
-	 * @throws IOException
-	 *             there was an error loading the threads.
+	 * @throws IOException there was an error loading the threads.
 	 */
 	public List<Thread> getFeedThreads(Feed feedType, int amount) throws IOException {
 		String url = "https://www.planetminecraft.com/forums" + feedType.toString();
@@ -264,7 +227,6 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
@@ -280,13 +242,10 @@ public class ThreadLoader {
 	/**
 	 * Gets all the threads in the specified page range.
 	 * 
-	 * @param startPage
-	 *            the page to start on.
-	 * @param endPage
-	 *            the page to end on.
+	 * @param startPage the page to start on.
+	 * @param endPage   the page to end on.
 	 * @return the unloaded threads.
-	 * @throws IOException
-	 *             there was an error getting the threads.
+	 * @throws IOException there was an error getting the threads.
 	 */
 	public List<Thread> getPages(int startPage, int endPage) throws IOException {
 		String url = "https://www.planetminecraft.com/forums/?thread_sort=newest";
@@ -300,7 +259,6 @@ public class ThreadLoader {
 			doc = Jsoup.connect(url + "&p=" + p).userAgent("PMCAPI").post();
 		}
 
-		System.gc();
 		return threadsList;
 	}
 
@@ -308,11 +266,9 @@ public class ThreadLoader {
 	 * Gets the thread with the given URL. If the thread is not already loaded,
 	 * {@link ThreadLoader#load(String)} will be invoked.
 	 * 
-	 * @param url
-	 *            the URL of the thread to load.
+	 * @param url the URL of the thread to load.
 	 * @return the {@link Thread} representation of the given thread.
-	 * @throws IOException
-	 *             there was an error loading the thread.
+	 * @throws IOException there was an error loading the thread.
 	 */
 	public Thread getThread(String url) throws IOException {
 		return loadedThreads.containsKey(url) ? loadedThreads.get(url) : load(url);
@@ -321,8 +277,7 @@ public class ThreadLoader {
 	/**
 	 * Checks to see if the given URL has been loaded into a {@link Thread} object.
 	 * 
-	 * @param url
-	 *            the URL of the thread.
+	 * @param url the URL of the thread.
 	 * @return true: the URL has been loaded into a thread.<br>
 	 *         false: the URL has not been loaded.
 	 */
@@ -333,8 +288,7 @@ public class ThreadLoader {
 	/**
 	 * Will not load threads authored by the specified users.
 	 * 
-	 * @param usernames
-	 *            the users to ignore.
+	 * @param usernames the users to ignore.
 	 * @return a loader that will ignore the specified users.
 	 */
 	public ThreadLoader ignoreUsers(String... usernames) {
@@ -347,8 +301,7 @@ public class ThreadLoader {
 	/**
 	 * Will not load threads authored by the specified users.
 	 * 
-	 * @param users
-	 *            the users to ignore.
+	 * @param users the users to ignore.
 	 * @return a loader that will ignore the specified users.
 	 */
 	public ThreadLoader ignoreUsers(User... users) {
@@ -361,11 +314,9 @@ public class ThreadLoader {
 	/**
 	 * Loads the given URL into a {@link Thread} object.
 	 * 
-	 * @param url
-	 *            the location of the thread.
+	 * @param url the location of the thread.
 	 * @return the {@link Thread} representation of the given thread.
-	 * @throws IOException
-	 *             there was an error loading the thread.
+	 * @throws IOException there was an error loading the thread.
 	 * 
 	 */
 	public Thread load(String url) throws IOException {
@@ -379,13 +330,14 @@ public class ThreadLoader {
 			Category category = getCategory(doc);
 			String title = getTitle(doc);
 			Element content = getContent(doc);
+			boolean locked = getLockedStatus(doc);
 
-			Thread thread = new Thread(url, category, title, content, author, stats, id, replies);
+			Thread thread = new Thread(url, category, locked, title, content, author, stats, id, replies);
 			loadedThreads.put(url, thread);
-			System.gc();
+
 			return thread;
 		} catch (IndexOutOfBoundsException e) {
-			System.gc();
+
 			throw new MissingPostException(url, e);
 		}
 	}
@@ -393,11 +345,9 @@ public class ThreadLoader {
 	/**
 	 * Loads all the threads by the given user.
 	 * 
-	 * @param user
-	 *            the user who's threads to load.
+	 * @param user the user who's threads to load.
 	 * @return the threads.
-	 * @throws IOException
-	 *             there was an error loading the threads.
+	 * @throws IOException there was an error loading the threads.
 	 */
 	public List<Thread> loadUserThreads(User user) throws IOException {
 		String userURL = user.getURL();
@@ -413,15 +363,14 @@ public class ThreadLoader {
 				threads.add(load(link));
 			}
 		}
-		System.gc();
+
 		return threads;
 	}
 
 	/**
 	 * Removes a user from the ignored list.
 	 * 
-	 * @param username
-	 *            the name of the user to remove.
+	 * @param username the name of the user to remove.
 	 */
 	public void removeIgnoredUser(String username) {
 		this.ignoredUsers.remove(username);
@@ -430,8 +379,7 @@ public class ThreadLoader {
 	/**
 	 * Removes a user from the ignored list.
 	 * 
-	 * @param user
-	 *            the user to remove.
+	 * @param user the user to remove.
 	 */
 	public void removeIgnoredUser(User user) {
 		this.ignoredUsers.remove(user.getName());
@@ -440,8 +388,7 @@ public class ThreadLoader {
 	/**
 	 * Gets the thread author for the given forums thread.
 	 * 
-	 * @param doc
-	 *            the forums thread document.
+	 * @param doc the forums thread document.
 	 * @return the thread author.
 	 */
 	private User getAuthor(Document doc) {
@@ -454,20 +401,23 @@ public class ThreadLoader {
 	/**
 	 * Gets the thread category for the given thread.
 	 * 
-	 * @param doc
-	 *            the forums thread.
+	 * @param doc the forums thread.
 	 * @return the thread category.
 	 */
 	private Category getCategory(Document doc) {
-		return Category.parseCategory(doc.getElementsByClass(ElementIdentifiers.CRUMB).first()
-				.getElementsByClass(ElementIdentifiers.CATEGORY).get(2).attr("href"));
+		return Category.parseCategory(
+				doc.getElementById(ElementIdentifiers.CONTEXT_HEADER).getElementsByClass(ElementIdentifiers.CRUMB)
+						.first().getElementsByClass(ElementIdentifiers.CATEGORY).get(2).attr("href"));
+	}
+
+	private boolean getLockedStatus(Document doc) {
+		return !doc.getElementsByAttributeValue("title", "locked").isEmpty();
 	}
 
 	/**
 	 * Gets the thread description/content for the given forums thread.
 	 * 
-	 * @param doc
-	 *            the forums thread document.
+	 * @param doc the forums thread document.
 	 * @return the thread content.
 	 */
 	private Element getContent(Document doc) {
@@ -475,14 +425,14 @@ public class ThreadLoader {
 		if (content.isEmpty()) {
 			return new Element(ElementIdentifiers.CONTENT);
 		}
+
 		return content.first();
 	}
 
 	/**
 	 * Gets the emeralds, vies, and timestamp for the given forums thread.
 	 * 
-	 * @param doc
-	 *            the forums thread document.
+	 * @param doc the forums thread document.
 	 * @return an object array of thread's details in this form: <br>
 	 *         <code>[emeralds, views, timestamp]</code>
 	 */
@@ -498,8 +448,7 @@ public class ThreadLoader {
 	/**
 	 * Gets the comments/replies on the given forums thread.
 	 * 
-	 * @param doc
-	 *            the forums thread document.
+	 * @param doc the forums thread document.
 	 * @return the thread replies.
 	 */
 	private List<Reply> getReplies(Document doc) {
@@ -539,8 +488,7 @@ public class ThreadLoader {
 	/**
 	 * Gets the ID for the given thread.
 	 * 
-	 * @param doc
-	 *            the thread document.
+	 * @param doc the thread document.
 	 * @return the ID.
 	 */
 	private int getThreadID(Document doc) {
@@ -551,10 +499,8 @@ public class ThreadLoader {
 	/**
 	 * Gets the all the thread URLs and their authors from the given page.
 	 * 
-	 * @param doc
-	 *            the threads page document.
-	 * @param limit
-	 *            the maximum amount of threads to get.
+	 * @param doc   the threads page document.
+	 * @param limit the maximum amount of threads to get.
 	 * @return the unloaded threads.
 	 */
 	private List<Thread> getThreadPage(Document doc, int limit) {
@@ -563,7 +509,7 @@ public class ThreadLoader {
 		for (int i = 0; i <= limit && i < boxes.size(); i++) {
 			Element box = boxes.get(i);
 			Elements hrefs = box.getElementsByTag("a");
-			Element titleUrl = hrefs.get(2);
+			Element titleUrl = hrefs.get(0);
 			String threadUrl = titleUrl.absUrl("href");
 			String title = titleUrl.ownText();
 			Element auth = box.getElementsByClass(ElementIdentifiers.STATS).get(0).getElementsByTag("a").first();
@@ -580,8 +526,7 @@ public class ThreadLoader {
 	/**
 	 * Gets the thread title for the given forums thread.
 	 * 
-	 * @param doc
-	 *            the forums thread document.
+	 * @param doc the forums thread document.
 	 * @return the thread title.
 	 */
 	private String getTitle(Document doc) {
@@ -592,8 +537,7 @@ public class ThreadLoader {
 	/**
 	 * Converts the given date-time string into a {@link LocalDateTime} object.
 	 * 
-	 * @param datetime
-	 *            the date-time string to convert.
+	 * @param datetime the date-time string to convert.
 	 * @return the {@link LocalDateTime} representation of the given date-time
 	 *         string.
 	 */

@@ -72,9 +72,9 @@ public enum Category {
 	 */
 	MODS,
 	/**
-	 * So popular, we had to create a section for it! Post your hubs here.
+	 * So unpopular after Discord, they died.
 	 */
-	HUBS,
+	HUBS_ARCHIVED,
 	/**
 	 * We tend to be a creative breed of gamer. Show off your artistic side.
 	 */
@@ -89,9 +89,9 @@ public enum Category {
 	 */
 	ROLEPLAYS,
 	/**
-	 * Any other forum-related games should go here.
+	 * Any other forum-related games went here. Now retired.
 	 */
-	GAMES,
+	GAMES_ARCHIVED,
 	/**
 	 * Anything that isn't Minecraft-related or doesn't go anywhere above goes here.
 	 */
@@ -104,7 +104,11 @@ public enum Category {
 	/**
 	 * Have you made something for a different game or in real life? Post here!
 	 */
-	CREATIONS;
+	CREATIONS,
+	/**
+	 * Dated website guides. Still some bits that are worth reading.
+	 */
+	GUIDELINES_ARCHIVED;
 
 	/**
 	 * Gets the {@link Category} instance of the given category location.<br>
@@ -112,8 +116,7 @@ public enum Category {
 	 * <code>"/forums/discussions/creations/" = Category.CREATIONS</code><br>
 	 * <code>"/forums/pmc/introductions/" = Category.INTRODUCTIONS</code>
 	 * 
-	 * @param s
-	 *            the location of the category.
+	 * @param s the location of the category.
 	 * @return the category instance.
 	 */
 	public static Category parseCategory(String s) {
@@ -148,22 +151,24 @@ public enum Category {
 			return REDSTONE;
 		case "/forums/minecraft/mods/":
 			return MODS;
-		case "/forums/communities/hubs/":
-			return HUBS;
+		case "/forums/archive/hubs/":
+			return HUBS_ARCHIVED;
 		case "/forums/communities/artists/":
 			return ARTISTS;
 		case "/forums/communities/youtube/":
 			return YOUTUBE;
 		case "/forums/communities/roleplays/":
 			return ROLEPLAYS;
-		case "/forums/communities/games/":
-			return GAMES;
+		case "/forums/archive/games/":
+			return GAMES_ARCHIVED;
 		case "/forums/discussions/general/":
 			return GENERAL;
 		case "/forums/discussions/gaming/":
 			return GAMING;
 		case "/forums/discussions/creations/":
 			return CREATIONS;
+		case "/archive/guidelines/":
+			return GUIDELINES_ARCHIVED;
 		}
 		return null;
 	}
@@ -201,22 +206,24 @@ public enum Category {
 			return "Forums / Minecraft / Redstone";
 		case MODS:
 			return "Forums / Minecraft / Mods";
-		case HUBS:
-			return "Forums / Communities / Hubs";
+		case HUBS_ARCHIVED:
+			return "Forums / Archive / Hubs";
 		case ARTISTS:
 			return "Forums / Communities / Artists";
 		case YOUTUBE:
 			return "Forums / Communities / Youtube";
 		case ROLEPLAYS:
 			return "Forums / Communities / Roleplays";
-		case GAMES:
-			return "Forums / Communities / Games";
+		case GAMES_ARCHIVED:
+			return "Forums / Archive / Games";
 		case GENERAL:
 			return "Forums / Discussions / General";
 		case GAMING:
 			return "Forums / Discussions / Gaming";
 		case CREATIONS:
 			return "Forums / Discussions / Creations";
+		case GUIDELINES_ARCHIVED:
+			return "Forums / Archive / Guidelines";
 		}
 		return null;
 	}

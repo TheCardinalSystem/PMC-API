@@ -22,6 +22,7 @@ import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
 public class Thread {
 
 	private String title, url;
+	private Boolean locked;
 	private Element content;
 	private User author;
 	private int emeralds = -1, views = -1, ID = -1;
@@ -32,28 +33,21 @@ public class Thread {
 	/**
 	 * Constructs a new {@link Thread} object.
 	 * 
-	 * @param url
-	 *            the thread URL.
-	 * @param category
-	 *            the thread category.
-	 * @param title
-	 *            the thread title.
-	 * @param content
-	 *            the thread content.
-	 * @param author
-	 *            the thread author.
-	 * @param details
-	 *            the thread details in this order:<br>
-	 *            <code>[emeralds, views, timestamp]</code>
-	 * @param ID
-	 *            the thread ID.
-	 * @param replies
-	 *            the thread {@linkplain Reply replies}.
+	 * @param url      the thread URL.
+	 * @param category the thread category.
+	 * @param title    the thread title.
+	 * @param content  the thread content.
+	 * @param author   the thread author.
+	 * @param details  the thread details in this order:<br>
+	 *                 <code>[emeralds, views, timestamp]</code>
+	 * @param ID       the thread ID.
+	 * @param replies  the thread {@linkplain Reply replies}.
 	 */
-	public Thread(String url, Category category, String title, Element content, User author, Object[] details, int ID,
-			List<Reply> replies) {
+	public Thread(String url, Category category, boolean locked, String title, Element content, User author,
+			Object[] details, int ID, List<Reply> replies) {
 		this.url = url;
 		this.title = title;
+		this.locked = locked;
 		this.content = content;
 		this.author = author;
 		this.category = category;
@@ -67,14 +61,10 @@ public class Thread {
 	/**
 	 * Constructs an unloaded thread object.
 	 * 
-	 * @param url
-	 *            the URL of this thread.
-	 * @param title
-	 *            the title of this thread.
-	 * @param author
-	 *            the thread author.
-	 * @param category
-	 *            the thread category.
+	 * @param url      the URL of this thread.
+	 * @param title    the title of this thread.
+	 * @param author   the thread author.
+	 * @param category the thread category.
 	 */
 	public Thread(String url, String title, User author, Category category) {
 		this.url = url;
@@ -86,8 +76,7 @@ public class Thread {
 	/**
 	 * Gets the reply with the given ID.
 	 * 
-	 * @param ID
-	 *            the reply ID.
+	 * @param ID the reply ID.
 	 * @return The reply. Null if this thread is not loaded or does not contain a
 	 *         reply with the given ID.
 	 */
@@ -124,6 +113,17 @@ public class Thread {
 			throw new UnloadedResourceExcpetion(url, "threadTitle");
 		else
 			return title;
+	}
+
+	/**
+	 * @return <b>true</b> if this thread is locked<br>
+	 *         <b>false</b> if this thread is not locked.
+	 */
+	public boolean isLocked() {
+		if (locked == null)
+			throw new UnloadedResourceExcpetion(url, "threadStatus");
+		else
+			return locked;
 	}
 
 	/**
@@ -210,14 +210,13 @@ public class Thread {
 	/**
 	 * Loads this thread from its URL using the given {@link ThreadLoader}.
 	 * 
-	 * @param loader
-	 *            the thread loader.
-	 * @throws IOException
-	 *             there was an error loading this thread.
+	 * @param loader the thread loader.
+	 * @throws IOException there was an error loading this thread.
 	 */
 	public void load(ThreadLoader loader) throws IOException {
 		Thread t = loader.getThread(url);
 		this.author = t.getAuthor();
+		this.locked = t.isLocked();
 		this.category = t.getCategory();
 		this.content = t.getContent();
 		this.emeralds = t.getEmeralds();
@@ -234,10 +233,10 @@ public class Thread {
 
 	public String toPrettyString() {
 		try {
-			return "ID: " + ID + "\nCategory: " + category.toString() + "\nURL: " + url + "\nTitle: " + title
-					+ "\nAuthor: " + author.toString() + "\nEmeralds: " + emeralds + "\nViews: " + views + "\nTime: "
-					+ timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")) + "\nContent: [\n\t"
-					+ content.text().replaceAll("\n", "\n\t") + "\n]" + "\nReplies: {\n\t"
+			return "ID: " + ID + "\nCategory: " + category.toString() + "\nURL: " + url + "\nLocked: " + locked
+					+ "\nTitle: " + title + "\nAuthor: " + author.toString() + "\nEmeralds: " + emeralds + "\nViews: "
+					+ views + "\nTime: " + timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"))
+					+ "\nContent: [\n\t" + content.text().replaceAll("\n", "\n\t") + "\n]" + "\nReplies: {\n\t"
 					+ replies.stream().filter(r -> r.getParentID() == 0).map(t -> t.toString())
 							.collect(Collectors.joining("\n\n")).replaceAll("\n", "\n\t")
 					+ "\n}";
@@ -255,8 +254,7 @@ public class Thread {
 	/**
 	 * Removes any duplicate threads from the given list.
 	 * 
-	 * @param threads
-	 *            the distinct threads.
+	 * @param threads the distinct threads.
 	 */
 	public static void distinct(Collection<Thread> threads) {
 		HashMap<String, Thread> dist = new HashMap<String, Thread>();
@@ -273,6 +271,7 @@ public class Thread {
 	 */
 	public enum Feed {
 		HOT, NEWEST, ACTIVE, BEST;
+
 		@Override
 		public String toString() {
 			switch (this) {

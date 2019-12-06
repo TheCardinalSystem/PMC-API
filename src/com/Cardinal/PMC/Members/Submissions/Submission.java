@@ -13,13 +13,14 @@ import com.Cardinal.PMC.Members.User;
 import com.Cardinal.PMC.lang.UnloadedResourceExcpetion;
 
 /**
- * An interface used to represent a submission.
+ * A class used to represent a submission.
  * 
  * @author Cardinal System
  *
  */
-public abstract class Submission {
+public class Submission {
 
+	protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
 	protected String url, title, tags[];
 	protected Element description;
 	protected User author;
@@ -27,12 +28,12 @@ public abstract class Submission {
 	protected List<Comment> comments;
 	protected LocalDateTime timestamp;
 	protected Type type;
+	protected String[] media;
 
 	/**
 	 * Constructs a new (unloaded) submission with the given URL.
 	 * 
-	 * @param url
-	 *            the URL of the submission.
+	 * @param url the URL of the submission.
 	 */
 	public Submission(String url) {
 		this.url = url;
@@ -78,6 +79,17 @@ public abstract class Submission {
 		if (title == null)
 			throw new UnloadedResourceExcpetion(url, "submissionTitle");
 		return title;
+	}
+
+	/**
+	 * Get's the URLs to any media (videos/thumbnails) in this submission's header.
+	 * 
+	 * @return media URLs.
+	 */
+	public String[] getMedia() {
+		if (media == null)
+			throw new UnloadedResourceExcpetion(url, "submissionMedia");
+		return media;
 	}
 
 	/**
@@ -180,18 +192,24 @@ public abstract class Submission {
 	}
 
 	/**
-	 * Uses the given loader to load this submission.
+	 * Uses the given loader to load this submission.<br>
+	 * <br>
+	 * NOTE: Do not use this method if you want to load DownloadableSubmissions. You
+	 * will not be able to cast {@link DownloadableSubmission} to {@link Submission}
+	 * unless you use {@link SubmissionLoader#load(String)} or
+	 * {@link SubmissionLoader#load(Submission)}.
 	 * 
-	 * @param loader
-	 *            the loader.
+	 * @param loader the loader.
 	 * @return this, once it is loaded.
-	 * @throws IOException
-	 *             there was an error loading the submission.
+	 * @throws IOException there was an error loading the submission.
 	 */
 	public Submission load(SubmissionLoader loader) throws IOException {
 		Submission sub = loader.getSubmission(url);
 		this.author = sub.getAuthor();
 		this.comments = sub.getComments();
+		this.media = Arrays.stream(sub.getMedia())
+				.map(s -> s != null && s.contains("youtube") ? s.replaceAll("embed\\/", "watch?v=") : s)
+				.toArray(String[]::new);
 		this.description = sub.getDescription();
 		this.diamonds = sub.getDiamonds();
 		this.favorites = sub.getFavorites();
@@ -207,10 +225,10 @@ public abstract class Submission {
 	@Override
 	public String toString() {
 		try {
-			return "ID: " + ID + "\nType: " + type.toString().toUpperCase() + "\nURL: " + url + "\nTitle: " + title
-					+ "\nAuthor: " + author + "\nTime: "
-					+ timestamp.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")) + "\nDiamonds: " + diamonds
-					+ "\nViews: " + views + " | " + viewsToday + " today\nFavorites: " + favorites + "\nTags: "
+			return "ID: " + ID + "\nType: " + type.toString().toUpperCase() + "\nURL: " + url + "\nMedia: "
+					+ Arrays.toString(media != null ? media : new String[1]) + "\nTitle: " + title + "\nAuthor: "
+					+ author + "\nTime: " + timestamp.format(FORMATTER) + "\nDiamonds: " + diamonds + "\nViews: "
+					+ views + " | " + viewsToday + " today\nFavorites: " + favorites + "\nTags: "
 					+ Arrays.toString(tags) + "\nDesc: [\n\t" + description.text().replaceAll("\n", "\n\t")
 					+ "\n]\nComments: {\n\t" + comments.stream().map(c -> c.toString())
 							.collect(Collectors.joining("\n\n")).replaceAll("\n", "\n\t")
@@ -231,7 +249,7 @@ public abstract class Submission {
 
 		@Override
 		public String toString() {
-			return super.toString().toLowerCase();
+			return this.equals(PACKS) ? "texture_packs" : super.toString().toLowerCase();
 		}
 	}
 

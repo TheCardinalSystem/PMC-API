@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,17 +33,12 @@ public class SubmissionLoader {
 	 * Searches under the specified type of submission for the given keywords as
 	 * defined by the given feed.
 	 * 
-	 * @param search
-	 *            search keywords.
-	 * @param type
-	 *            the type of submission to search.
-	 * @param feedType
-	 *            used to sort the blogs.
-	 * @param amount
-	 *            the amount of submissions to get.
+	 * @param search   search keywords.
+	 * @param type     the type of submission to search.
+	 * @param feedType used to sort the blogs.
+	 * @param amount   the amount of submissions to get.
 	 * @return the unloaded submissions.
-	 * @throws IOException
-	 *             there was an error getting the submissions.
+	 * @throws IOException there was an error getting the submissions.
 	 */
 	public List<Submission> searchSubmissionsFeed(String search, Type type, Feed feedType, int amount)
 			throws IOException {
@@ -64,15 +60,11 @@ public class SubmissionLoader {
 	/**
 	 * Searches under the specified type of submission for the given keywords.
 	 * 
-	 * @param search
-	 *            search keywords.
-	 * @param type
-	 *            the type of submission to search.
-	 * @param amount
-	 *            the amount of submissions to get.
+	 * @param search search keywords.
+	 * @param type   the type of submission to search.
+	 * @param amount the amount of submissions to get.
 	 * @return the unloaded submissions.
-	 * @throws IOException
-	 *             there was an error getting the submissions.
+	 * @throws IOException there was an error getting the submissions.
 	 */
 	public List<Submission> searchSubmissions(String search, Type type, int amount) throws IOException {
 		String url = "https://www.planetminecraft.com/resources/" + type.toString() + "?keywords=" + search;
@@ -93,17 +85,12 @@ public class SubmissionLoader {
 	 * Gets all the blogs under the given category in the specified page range as
 	 * defined by the given feed.
 	 * 
-	 * @param startPage
-	 *            the start page.
-	 * @param endPage
-	 *            the end page.
-	 * @param category
-	 *            the category.
-	 * @param feedType
-	 *            used to sort the blogs.
+	 * @param startPage the start page.
+	 * @param endPage   the end page.
+	 * @param category  the category.
+	 * @param feedType  used to sort the blogs.
 	 * @return the unloaded blogs.
-	 * @throws IOException
-	 *             there was an error getting the blogs.
+	 * @throws IOException there was an error getting the blogs.
 	 */
 	public List<Submission> getBlogFeedPages(int startPage, int endPage, Blog.Category category, Feed feedType)
 			throws IOException {
@@ -124,15 +111,11 @@ public class SubmissionLoader {
 	/**
 	 * Gets all the blogs under the given category in the specified page range.
 	 * 
-	 * @param startPage
-	 *            the start page.
-	 * @param endPage
-	 *            the end page.
-	 * @param category
-	 *            the category.
+	 * @param startPage the start page.
+	 * @param endPage   the end page.
+	 * @param category  the category.
 	 * @return the unloaded blogs.
-	 * @throws IOException
-	 *             there was an error getting the blogs.
+	 * @throws IOException there was an error getting the blogs.
 	 */
 	public List<Submission> getBlogPages(int startPage, int endPage, Blog.Category category) throws IOException {
 		String url = "https://www.planetminecraft.com/resources/blogs/" + category.toString() + Feed.NEW.toString();
@@ -153,13 +136,10 @@ public class SubmissionLoader {
 	 * Gets the specified number of unloaded blogs from the given blog category in
 	 * order of newest to oldest.
 	 * 
-	 * @param category
-	 *            the blog category.
-	 * @param amount
-	 *            the amount of blogs to get.
+	 * @param category the blog category.
+	 * @param amount   the amount of blogs to get.
 	 * @return the unloaded blogs.
-	 * @throws IOException
-	 *             there was an error loading the blogs.
+	 * @throws IOException there was an error loading the blogs.
 	 */
 	public List<Submission> getBlogs(Blog.Category category, int amount) throws IOException {
 		String url = "https://www.planetminecraft.com/resources/blogs/" + category.toString() + Feed.NEW.toString();
@@ -179,15 +159,11 @@ public class SubmissionLoader {
 	 * Gets the specified number of unloaded blogs from the given blog category in
 	 * the specified order.
 	 * 
-	 * @param category
-	 *            the blog category.
-	 * @param feedType
-	 *            used to sort the blog feed.
-	 * @param amount
-	 *            the amount of blogs to get.
+	 * @param category the blog category.
+	 * @param feedType used to sort the blog feed.
+	 * @param amount   the amount of blogs to get.
 	 * @return the unloaded blogs.
-	 * @throws IOException
-	 *             there was an error loading the blogs.
+	 * @throws IOException there was an error loading the blogs.
 	 */
 	public List<Submission> getBlogsFeed(Blog.Category category, Submission.Feed feedType, int amount)
 			throws IOException {
@@ -211,17 +187,12 @@ public class SubmissionLoader {
 	 * {@link SubmissionLoader#getBlogFeedPages(int, int, Category, Feed)} for
 	 * blogs.
 	 * 
-	 * @param startPage
-	 *            the start page.
-	 * @param endPage
-	 *            the end page.
-	 * @param type
-	 *            the submissions type.
-	 * @param feedType
-	 *            used to sort the blog feed.
+	 * @param startPage the start page.
+	 * @param endPage   the end page.
+	 * @param type      the submissions type.
+	 * @param feedType  used to sort the blog feed.
 	 * @return the unloaded submissions.
-	 * @throws IOException
-	 *             there was an error getting the submissions.
+	 * @throws IOException there was an error getting the submissions.
 	 */
 	public List<Submission> getFeedTypePages(int startPage, int endPage, Submission.Type type, Feed feedType)
 			throws IOException {
@@ -255,11 +226,9 @@ public class SubmissionLoader {
 	 * Gets the submission with the given URL. If the submission is not already
 	 * loaded, {@link SubmissionLoader#load(String)} will be invoked.
 	 * 
-	 * @param url
-	 *            the URL of the submission to load.
+	 * @param url the URL of the submission to load.
 	 * @return the {@link Submission} representation of the given submission.
-	 * @throws IOException
-	 *             there was an error loading the submission.
+	 * @throws IOException there was an error loading the submission.
 	 */
 	public Submission getSubmission(String url) throws IOException {
 		return loadedSubmissions.containsKey(url) ? loadedSubmissions.get(url) : load(url);
@@ -268,13 +237,10 @@ public class SubmissionLoader {
 	/**
 	 * Gets the unloaded submissions of the given type in order of newest to oldest.
 	 * 
-	 * @param type
-	 *            the type of submission to get.
-	 * @param amount
-	 *            the amount of submissions to get.
+	 * @param type   the type of submission to get.
+	 * @param amount the amount of submissions to get.
 	 * @return the unloaded submissions.
-	 * @throws IOException
-	 *             there was an error loading the submissions.
+	 * @throws IOException there was an error loading the submissions.
 	 */
 	public List<Submission> getType(Submission.Type type, int amount) throws IOException {
 		if (type.equals(Submission.Type.BLOGS))
@@ -299,15 +265,11 @@ public class SubmissionLoader {
 	 * given {@link Feed}. Use {@link SubmissionLoader#getBlogs(Category, int)} for
 	 * blogs.
 	 * 
-	 * @param type
-	 *            the type of submission to get.
-	 * @param feedType
-	 *            used to sort the submission feed.
-	 * @param amount
-	 *            the amount of submissions to get.
+	 * @param type     the type of submission to get.
+	 * @param feedType used to sort the submission feed.
+	 * @param amount   the amount of submissions to get.
 	 * @return the unloaded submissions.
-	 * @throws IOException
-	 *             there was an error loading the submissions.
+	 * @throws IOException there was an error loading the submissions.
 	 */
 	public List<Submission> getTypeFeed(Submission.Type type, Submission.Feed feedType, int amount) throws IOException {
 		if (type.equals(Submission.Type.BLOGS))
@@ -332,15 +294,11 @@ public class SubmissionLoader {
 	 * page range. Use {@link SubmissionLoader#getBlogPages(int, int, Category)} for
 	 * blogs.
 	 * 
-	 * @param startPage
-	 *            the start page.
-	 * @param endPage
-	 *            the end page.
-	 * @param type
-	 *            the submissions type.
+	 * @param startPage the start page.
+	 * @param endPage   the end page.
+	 * @param type      the submissions type.
 	 * @return the unloaded submissions.
-	 * @throws IOException
-	 *             there was an error getting the submissions.
+	 * @throws IOException there was an error getting the submissions.
 	 */
 	public List<Submission> getTypePages(int startPage, int endPage, Submission.Type type) throws IOException {
 		if (type.equals(Submission.Type.BLOGS))
@@ -363,8 +321,7 @@ public class SubmissionLoader {
 	/**
 	 * Will not load submissions authored by the specified users.
 	 * 
-	 * @param usernames
-	 *            the users to ignore.
+	 * @param usernames the users to ignore.
 	 * @return a loader that will ignore the specified users.
 	 */
 	public SubmissionLoader ignoreUsers(String... usernames) {
@@ -377,8 +334,7 @@ public class SubmissionLoader {
 	/**
 	 * Will not load submissions authored by the specified users.
 	 * 
-	 * @param users
-	 *            the users to ignore.
+	 * @param users the users to ignore.
 	 * @return a loader that will ignore the specified users.
 	 */
 	public SubmissionLoader ignoreUsers(User... users) {
@@ -389,33 +345,50 @@ public class SubmissionLoader {
 	}
 
 	/**
+	 * Loads the given submission using its URL.
+	 * 
+	 * @param submission
+	 * @return the loded {@link Submission}
+	 * @throws IOException there was an error loading the submission.
+	 */
+	public Submission load(Submission submission) throws IOException {
+		return load(submission.getURL());
+	}
+
+	/**
 	 * Loads the given URL into a {@link Submission} object.
 	 * 
-	 * @param url
-	 *            the URL to load.
+	 * @param url the URL to load.
 	 * @return the {@link Submission} representation.
-	 * @throws IOException
-	 *             there was an error loading the submission.
+	 * @throws IOException there was an error loading the submission.
 	 */
 
 	public Submission load(String url) throws IOException {
 		Document doc = Jsoup.connect(url).userAgent("PMCAPI").post();
 		try {
-			switch (getType(doc)) {
+			String type = getType(doc);
+			switch (type) {
 			case "Projects": {
 				User author = getAuthor(doc);
 				List<Comment> comments = getComments(doc);
 				String title = getTitle(doc);
 
+				String[] media = getMedia(doc, type);
+
 				Object[] details = getDetails(doc);
 
-				String download = getDownload(doc, false);
+				String[] downloads = getDownloads(doc, false);
+				String download = downloads[0];
+				String[] mirrors = new String[downloads.length - 1];
+				System.arraycopy(downloads, 1, mirrors, 0, mirrors.length);
+
 				int id = getID(doc);
 				String[] tags = getTags(doc);
 				Element desc = getDescription(doc);
 
-				Project project = new Project(url, title, download, desc, tags, author, (int) details[0],
-						(int) details[1], (int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
+				Project project = new Project(url, title, media, download, mirrors, desc, tags, author,
+						(int) details[0], (int) details[1], (int) details[2], (int) details[3], id, comments,
+						(LocalDateTime) details[4]);
 
 				loadedSubmissions.put(url, project);
 				return project;
@@ -425,15 +398,21 @@ public class SubmissionLoader {
 				List<Comment> comments = getComments(doc);
 				String title = getTitle(doc);
 
+				String[] media = getMedia(doc, type);
+
 				Object[] details = getDetails(doc);
 
-				String download = getDownload(doc, true);
+				String[] downloads = getDownloads(doc, false);
+				String download = downloads[0];
+				String[] mirrors = new String[downloads.length - 1];
+				System.arraycopy(downloads, 1, mirrors, 0, mirrors.length);
+
 				int id = getID(doc);
 				String[] tags = getTags(doc);
 				Element desc = getDescription(doc);
 
-				Skin skin = new Skin(url, title, download, desc, tags, author, (int) details[0], (int) details[1],
-						(int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
+				Skin skin = new Skin(url, title, media, download, mirrors, desc, tags, author, (int) details[0],
+						(int) details[1], (int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
 
 				loadedSubmissions.put(url, skin);
 				return skin;
@@ -443,15 +422,22 @@ public class SubmissionLoader {
 				List<Comment> comments = getComments(doc);
 				String title = getTitle(doc);
 
+				String[] media = getMedia(doc, type);
+
 				Object[] details = getDetails(doc);
 
-				String download = getDownload(doc, false);
+				String[] downloads = getDownloads(doc, false);
+				String download = downloads[0];
+				String[] mirrors = new String[downloads.length - 1];
+				System.arraycopy(downloads, 1, mirrors, 0, mirrors.length);
+
 				int id = getID(doc);
 				String[] tags = getTags(doc);
 				Element desc = getDescription(doc);
 
-				TexturePack pack = new TexturePack(url, title, download, desc, tags, author, (int) details[0],
-						(int) details[1], (int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
+				TexturePack pack = new TexturePack(url, title, media, download, mirrors, desc, tags, author,
+						(int) details[0], (int) details[1], (int) details[2], (int) details[3], id, comments,
+						(LocalDateTime) details[4]);
 				loadedSubmissions.put(url, pack);
 				return pack;
 			}
@@ -461,14 +447,16 @@ public class SubmissionLoader {
 				List<Comment> comments = getComments(doc);
 				String title = getTitle(doc);
 
+				String[] media = getMedia(doc, type);
+
 				Object[] details = getDetails(doc);
 				int id = getID(doc);
 				String[] tags = getTags(doc);
 				Element desc = getDescription(doc);
 				String ip = getServerIP(doc);
 
-				Server server = new Server(url, title, ip, desc, tags, author, (int) details[0], (int) details[1],
-						(int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
+				Server server = new Server(url, title, ip, media, desc, tags, author, (int) details[0],
+						(int) details[1], (int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
 
 				loadedSubmissions.put(url, server);
 				return server;
@@ -478,15 +466,21 @@ public class SubmissionLoader {
 				List<Comment> comments = getComments(doc);
 				String title = getTitle(doc);
 
+				String[] media = getMedia(doc, type);
+
 				Object[] details = getDetails(doc);
 
-				String download = getDownload(doc, false);
+				String[] downloads = getDownloads(doc, false);
+				String download = downloads[0];
+				String[] mirrors = new String[downloads.length - 1];
+				System.arraycopy(downloads, 1, mirrors, 0, mirrors.length);
+
 				int id = getID(doc);
 				String[] tags = getTags(doc);
 				Element desc = getDescription(doc);
 
-				Mod mod = new Mod(url, title, download, desc, tags, author, (int) details[0], (int) details[1],
-						(int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
+				Mod mod = new Mod(url, title, media, download, mirrors, desc, tags, author, (int) details[0],
+						(int) details[1], (int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
 
 				loadedSubmissions.put(url, mod);
 				return mod;
@@ -496,12 +490,14 @@ public class SubmissionLoader {
 				List<Comment> comments = getComments(doc);
 				String title = getTitle(doc);
 
+				String[] media = getMedia(doc, type);
+
 				Object[] details = getDetails(doc);
 				int id = getID(doc);
 				String[] tags = getTags(doc);
 				Element desc = getDescription(doc);
 
-				Blog blog = new Blog(url, title, desc, tags, author, (int) details[0], (int) details[1],
+				Blog blog = new Blog(url, title, media, desc, tags, author, (int) details[0], (int) details[1],
 						(int) details[2], (int) details[3], id, comments, (LocalDateTime) details[4]);
 
 				loadedSubmissions.put(url, blog);
@@ -517,11 +513,9 @@ public class SubmissionLoader {
 	/**
 	 * Loads all the given user's submissions.
 	 * 
-	 * @param user
-	 *            the user who's submissions to load.
+	 * @param user the user who's submissions to load.
 	 * @return the submissions.
-	 * @throws IOException
-	 *             there was an error loading the submissions.
+	 * @throws IOException there was an error loading the submissions.
 	 */
 	public List<Submission> loadUserSubmissions(User user) throws IOException {
 		String userUrl = user.getURL();
@@ -543,8 +537,7 @@ public class SubmissionLoader {
 	/**
 	 * Removes a user from the ignored list.
 	 * 
-	 * @param username
-	 *            the name of the user to remove.
+	 * @param username the name of the user to remove.
 	 */
 	public void removeIgnoredUser(String username) {
 		this.ignoredUsers.remove(username);
@@ -553,8 +546,7 @@ public class SubmissionLoader {
 	/**
 	 * Removes a user from the ignored list.
 	 * 
-	 * @param user
-	 *            the user to remove.
+	 * @param user the user to remove.
 	 */
 	public void removeIgnoredUser(User user) {
 		this.ignoredUsers.remove(user.getName());
@@ -563,8 +555,7 @@ public class SubmissionLoader {
 	/**
 	 * Gets the thread author for the given forums thread.
 	 * 
-	 * @param doc
-	 *            the forums thread document.
+	 * @param doc the forums thread document.
 	 * @return the thread author.
 	 */
 	private User getAuthor(Document doc) {
@@ -575,30 +566,79 @@ public class SubmissionLoader {
 	}
 
 	/**
+	 * Get's the URLs to any media (videos/thumbnails) in the given submission's
+	 * header.
+	 * 
+	 * @param doc  the submission document
+	 * @param type the submission type as specified by
+	 *             {@link SubmissionLoader#getType(Document)}.
+	 * @return the media URLs.
+	 */
+	private String[] getMedia(Document doc, String type) {
+		if (type.equalsIgnoreCase("Blogs")) {
+			Element embed = doc.getElementById(ElementIdentifiers.RESOURCE_EMBED);
+			Elements els = embed.getElementsByAttributeValue("name", ElementIdentifiers.EMBED_CODE);
+			Element textarea = els.get(0);
+			String text = textarea.text();
+			Document d = Jsoup.parse(text);
+			Elements els2 = d.getElementsByTag("img");
+			Element img = els2.get(0);
+			String thumbnail = img.attr("src");
+			return new String[] { thumbnail };
+		} else if (type.equalsIgnoreCase("Skins")) {
+			Elements angels = doc.getElementsByClass(ElementIdentifiers.ANGELS);
+			Element angel = angels.get(0);
+			Elements imgs = angel.getElementsByTag("img");
+			Element img = imgs.get(0);
+			return new String[] { img.attr("src") };
+		} else if (type.equalsIgnoreCase("Projects") || type.equalsIgnoreCase("Servers")
+				|| type.equalsIgnoreCase("Projects") || type.equalsIgnoreCase("Mods")) {
+			Elements imgs = doc.getElementsByClass(ElementIdentifiers.RESOURCE_IMG);
+			if (!imgs.isEmpty()) {
+				String[] thumbnails = imgs.stream().map(e -> e.attr("src")).toArray(String[]::new);
+				Elements vids = doc.getElementsByClass(ElementIdentifiers.RESOURCE_NO_DRAG);
+				if (!vids.isEmpty()) {
+					String[] videos = vids.stream().map(e -> e.attr("data-rsVideo")).toArray(String[]::new);
+					return Stream.of(thumbnails, videos).distinct().toArray(String[]::new);
+				}
+				return thumbnails;
+			}
+			Element gallery = doc.getElementById(ElementIdentifiers.VIDEO_GALLERY);
+			if (gallery != null) {
+				Elements vids = gallery.getElementsByTag("iframe");
+				return vids.stream().map(e -> e.attr("src")).toArray(String[]::new);
+			}
+		}
+
+		return new String[1];
+	}
+
+	/**
 	 * Gets the comments on the given submission.
 	 * 
-	 * @param doc
-	 *            the submission document.
+	 * @param doc the submission document.
 	 * @return the comments.
 	 */
 	private List<Comment> getComments(Document doc) {
 		List<Comment> replies = new ArrayList<Comment>();
 
 		Element container = doc.getElementById(ElementIdentifiers.COMMENTS);
-		for (Element comment : container.getElementsByClass(ElementIdentifiers.COMMENTITEM)) {
-			Element header = comment.getElementsByClass(ElementIdentifiers.COMMENTHEADER).first();
-			Element user = header.getElementsByTag("a").get(1);
-			Element text = comment.getElementsByClass(ElementIdentifiers.COMMENTTEXT).first();
-			text.select("br").append("\n");
+		if (container != null) {
+			for (Element comment : container.getElementsByClass(ElementIdentifiers.COMMENTITEM)) {
+				Element header = comment.getElementsByClass(ElementIdentifiers.COMMENTHEADER).first();
+				Element user = header.getElementsByTag("a").get(1);
+				Element text = comment.getElementsByClass(ElementIdentifiers.COMMENTTEXT).first();
+				text.select("br").append("\n");
 
-			int id = Integer.parseInt(comment.getElementsByClass(ElementIdentifiers.COMMENTID).first().ownText());
-			User author = new User(user.absUrl("href"));
-			String content = text.text();
-			LocalDateTime time = parseDateTime(header.getElementsByTag("abbr").first().attr("title"));
+				int id = Integer.parseInt(comment.getElementsByClass(ElementIdentifiers.COMMENTID).first().ownText());
+				User author = new User(user.absUrl("href"));
+				String content = text.text();
+				LocalDateTime time = parseDateTime(header.getElementsByTag("abbr").first().attr("title"));
 
-			Comment reply = new Comment(author, id, content, time);
+				Comment reply = new Comment(author, id, content, time);
 
-			replies.add(reply);
+				replies.add(reply);
+			}
 		}
 
 		return replies;
@@ -607,8 +647,7 @@ public class SubmissionLoader {
 	/**
 	 * Gets the description of the given submission.
 	 * 
-	 * @param doc
-	 *            the submission document.
+	 * @param doc the submission document.
 	 * @return the description.
 	 */
 	private Element getDescription(Document doc) {
@@ -618,8 +657,7 @@ public class SubmissionLoader {
 	/**
 	 * Gets the details of the given submission.
 	 * 
-	 * @param doc
-	 *            the submission details.
+	 * @param doc the submission details.
 	 * @return an object array with the submission details in this order:<br>
 	 *         <code>[diamonds, views, viewsToday, favorites, timestamp]</code>
 	 */
@@ -641,28 +679,24 @@ public class SubmissionLoader {
 	}
 
 	/**
-	 * Gets the download URL for the given submission.
+	 * Gets the download URLs for the given submission.
 	 * 
-	 * @param doc
-	 *            the submission document.
-	 * @param skin
-	 *            used to indicate whether or not the invoker is requesting a skin
-	 *            download URL.
+	 * @param doc  the submission document.
+	 * @param skin used to indicate whether or not the invoker is requesting a skin
+	 *             download URL.
 	 * @return the download URL.
 	 */
-	private String getDownload(Document doc, boolean skin) {
+	private String[] getDownloads(Document doc, boolean skin) {
 		Element download = doc.getElementsByClass(ElementIdentifiers.DOWNLOAD).first();
 		if (download == null)
-			return "No download.";
-		return skin ? download.getElementsByTag("a").get(1).absUrl("href")
-				: download.getElementsByTag("a").first().absUrl("href");
+			return new String[] { "No download", "" };
+		return download.getElementsByTag("a").stream().map(e -> e.absUrl("href")).toArray(String[]::new);
 	}
 
 	/**
 	 * Gets the submission ID for the given submission.
 	 * 
-	 * @param doc
-	 *            the submission document.
+	 * @param doc the submission document.
 	 * @return the ID.
 	 */
 	private int getID(Document doc) {
@@ -672,8 +706,7 @@ public class SubmissionLoader {
 	/**
 	 * Gets this submission's server IP (Assuming it's a server).
 	 * 
-	 * @param doc
-	 *            the submission's document.
+	 * @param doc the submission's document.
 	 * @return the IP.
 	 */
 	private String getServerIP(Document doc) {
@@ -684,10 +717,8 @@ public class SubmissionLoader {
 	/**
 	 * Gets the unloaded submissions on the given page.
 	 * 
-	 * @param doc
-	 *            the page document.
-	 * @param amount
-	 *            the amount of URLs to get.
+	 * @param doc    the page document.
+	 * @param amount the amount of URLs to get.
 	 * @return the unloaded submissions.
 	 */
 	private List<Submission> getSubmissionPage(Document doc, int amount) {
@@ -707,8 +738,7 @@ public class SubmissionLoader {
 	/**
 	 * Gets the submission URLs from the given user submissions page.
 	 * 
-	 * @param doc
-	 *            the submissions document.
+	 * @param doc the submissions document.
 	 * @return the URLs.
 	 */
 	private List<String> getSubmissionURLs(Document doc) {
@@ -723,8 +753,7 @@ public class SubmissionLoader {
 	/**
 	 * Gets the given submission's tags.
 	 * 
-	 * @param doc
-	 *            the submission document.
+	 * @param doc the submission document.
 	 * @return the tags.
 	 */
 	private String[] getTags(Document doc) {
@@ -740,8 +769,7 @@ public class SubmissionLoader {
 	/**
 	 * Gets the title of the given submission.
 	 * 
-	 * @param doc
-	 *            the submission document.
+	 * @param doc the submission document.
 	 * @return the submission title.
 	 */
 	private String getTitle(Document doc) {
@@ -751,20 +779,18 @@ public class SubmissionLoader {
 	/**
 	 * Gets the category for the given submission.
 	 * 
-	 * @param doc
-	 *            the submission document.
+	 * @param doc the submission document.
 	 * @return the category.
 	 */
 	private String getType(Document doc) {
-		Element category = doc.getElementById(ElementIdentifiers.TYPE);
-		return category.getElementsByTag("a").get(1).ownText();
+		Elements category = doc.getElementsByClass(ElementIdentifiers.TYPE);
+		return category.get(0).getElementsByTag("a").get(1).ownText();
 	}
 
 	/**
 	 * Converts the given date-time string into a {@link LocalDateTime} object.
 	 * 
-	 * @param datetime
-	 *            the date-time string to convert.
+	 * @param datetime the date-time string to convert.
 	 * @return the {@link LocalDateTime} representation of the given date-time
 	 *         string.
 	 */
